@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "ita-injury-watch"
+version = "0.1.0"
+description = "Naive tracker for ITA college tennis injury chatter on X"
+readme = "README.md"
+requires-python = ">=3.9"
+license = { text = "MIT" }
+dependencies = []
+
+[project.optional-dependencies]
+dev = ["pytest"]
+
+[project.scripts]
+ita-injury-watch = "ita_injury_watch.cli:main"
+
+[tool.setuptools]
+packages = ["ita_injury_watch"]
+
+[tool.setuptools.package-data]
+ita_injury_watch = ["sample_tweets.json"]
