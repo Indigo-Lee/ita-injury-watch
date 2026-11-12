@@ -3,9 +3,6 @@
 A tiny, zero-dependency Python CLI that searches recent X posts for college (ITA) tennis
 injury and lineup chatter, and tags each hit as `OUT`, `QUESTIONABLE`, or `RETURNING`.
 
-> ⚠️ **Not accurate.** It's keyword matching plus a naive name guess. Treat output as
-> rumor-grade. Don't bet on it, don't bench anyone because of it.
-
 ## Quick start
 
 ```bash
