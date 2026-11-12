@@ -20,26 +20,40 @@ and violates their terms). You need a bearer token from the [X developer portal]
 
 ```bash
 export X_BEARER_TOKEN=your_token_here
-ita-injury-watch -n 100 --csv injuries.csv
+ita-injury-watch                       # latest status per player
+ita-injury-watch --status OUT          # only players ruled out
+ita-injury-watch --all --csv out.csv   # every matching post, saved to CSV
 ```
 
 Example output:
 
 ```
-[OUT         ] Jordan Smith       Jordan Smith is out for the season after wrist surgery...
-               https://x.com/i/status/1
-[QUESTIONABLE] Alex Rivera        Alex Rivera day-to-day with a tweaked ankle...
+Scanned 8 posts, 4 injury reports.
+
+[OUT         ] Taylor Brooks      (knee)       2026-02-11
+               Taylor Brooks retired in the second set with an apparent knee injury at ITA indoors
+               https://x.com/i/status/5
+
+[RETURNING   ] Sam Lee                         2026-02-11
+               Good news: Sam Lee returns to lineup at #1 singles after missing three matches
+               https://x.com/i/status/4
 ```
 
-Note: API access tiers and rate limits change; the free tier may not include search.
+API access tiers and rate limits change; the free tier may not include search.
 
 ## How it works
 
-1. `core.QUERY` searches for ITA / college-tennis terms alongside injury terms.
-2. `core.STATUS_RULES` regexes bucket each post.
-3. `core.guess_player` grabs the first capitalized "First Last" in the text.
+1. **Search:** `QUERY` asks X for posts that mention tennis plus college/ITA terms and injury
+   terms, and excludes other sports.
+2. **Filter:** posts that aren't about tennis, mention another sport, or say a player is
+   healthy ("no injury", "injury-free") are dropped.
+3. **Classify:** each post is tagged `OUT`, `QUESTIONABLE`, or `RETURNING`.
+4. **Extract:** the player is the name closest before the injury phrase, skipping filler like
+   "Good news" or "Coach". The body part (wrist, ankle, knee...) is pulled out too.
+5. **Dedupe:** by default only the newest report per player is shown, so a "returns to lineup"
+   post replaces an older "out" post.
 
-Tweak the query and regexes in [`ita_injury_watch/core.py`](ita_injury_watch/core.py).
+Tweak the query and rules in [`ita_injury_watch/core.py`](ita_injury_watch/core.py).
 
 ## Dev
 
@@ -52,7 +66,7 @@ pytest
 
 - Follow specific team/coach accounts instead of keyword search
 - Cross-check against ITA lineup pages
-- Dedupe by player, keep latest status
+- Map players to schools using team rosters
 
 ## License
 
