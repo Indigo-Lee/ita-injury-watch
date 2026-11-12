@@ -9,7 +9,7 @@ injury and lineup chatter, and tags each hit as `OUT`, `QUESTIONABLE`, or `RETUR
 ## Quick start
 
 ```bash
-git clone https://github.com/<you>/ita-injury-watch.git
+git clone https://github.com/Indigo-Lee/ita-injury-watch.git
 cd ita-injury-watch
 pip install -e .
 
